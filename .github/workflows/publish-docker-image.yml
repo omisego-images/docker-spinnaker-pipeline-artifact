@@ -1,0 +1,23 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run:
+        docker login --username omisegobot --password ${{ secrets.OMGBOT_DOCKER_TOKEN }}
+    - name: Docker Build & Publish
+      run: |
+        GIT_COMMIT_SHA=$(git rev-parse --short=7 HEAD)
+        DOCKER_IMAGE=omisego/spinnaker-pipeline-artifact:$GIT_COMMIT_SHA
+        docker build --file Dockerfile -t spinnaker-pipeline .
+        docker tag spinnaker-pipeline $DOCKER_IMAGE
+        docker push $DOCKER_IMAGE
