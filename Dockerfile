@@ -1,11 +1,11 @@
 # This is a base image that will provide the basic dependencies for spinnaker pipeline
-# Like curl, wget, yq, argo-cli
+# Like curl, wget, git, yq, argo-cli
 
 FROM ubuntu:20.04
 
 # install common tools (eg. curl, wget)
 RUN apt update && apt -y -q install software-properties-common \
-    && apt -y -q install curl wget
+    && apt -y -q install curl wget git
 
 # install yq
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \
