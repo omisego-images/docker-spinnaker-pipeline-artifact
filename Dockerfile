@@ -18,7 +18,7 @@ ENV ARGO_VERSION=v1.7.10
 RUN curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGO_VERSION/argocd-linux-amd64
 RUN chmod +x /usr/local/bin/argocd
 
-RUN groupadd -r spinnaker && useradd -r -g spinnaker spinnaker
+RUN groupadd -r spinnaker && useradd -m -r -g spinnaker spinnaker
 USER spinnaker
 
 CMD ["/bin/bash"]
