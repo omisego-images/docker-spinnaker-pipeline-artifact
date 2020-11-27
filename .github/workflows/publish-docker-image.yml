@@ -13,13 +13,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: Docker login
       run:
-        docker login --username omisegobot --password ${{ secrets.OMGBOT_DOCKER_TOKEN }}
+        echo ${{ secrets.OMGBOT_DOCKER_TOKEN }} | docker login --username omisegobot --password-stdin
     - name: Docker Build & Publish
       run: |
         GIT_COMMIT_SHA=$(git rev-parse --short=7 HEAD)
         GIT_SHA_TAG=omisego/spinnaker-pipeline-artifact:$GIT_COMMIT_SHA
         LATEST_TAG=omisego/spinnaker-pipeline-artifact:latest
 
-        docker build --file Dockerfile -t spinnaker-pipeline .
-        docker tag spinnaker-pipeline $GIT_SHA_TAG $LATEST_TAG
-        docker push omisego/spinnaker-pipeline-artifact
+        docker build --file Dockerfile --tag spinnaker-pipeline .
+
+        docker tag spinnaker-pipeline $GIT_SHA_TAG
+        docker push $GIT_SHA_TAG
+
+        docker tag spinnaker-pipeline $LATEST_TAG
+        docker push $LATEST_TAG
+
+
