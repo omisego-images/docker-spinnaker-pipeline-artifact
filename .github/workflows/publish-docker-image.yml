@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +17,9 @@ jobs:
     - name: Docker Build & Publish
       run: |
         GIT_COMMIT_SHA=$(git rev-parse --short=7 HEAD)
-        DOCKER_IMAGE=omisego/spinnaker-pipeline-artifact:$GIT_COMMIT_SHA
+        GIT_SHA_TAG=omisego/spinnaker-pipeline-artifact:$GIT_COMMIT_SHA
+        LATEST_TAG=omisego/spinnaker-pipeline-artifact:latest
+
         docker build --file Dockerfile -t spinnaker-pipeline .
-        docker tag spinnaker-pipeline $DOCKER_IMAGE
-        docker push $DOCKER_IMAGE
+        docker tag spinnaker-pipeline $GIT_SHA_TAG $LATEST_TAG
+        docker push omisego/spinnaker-pipeline-artifact
