@@ -5,7 +5,7 @@ FROM ubuntu:20.04
 
 # install common tools (eg. curl, wget)
 RUN apt update && apt -y -q install software-properties-common \
-    && apt -y -q install curl wget git
+    && apt -y -q install curl wget git nodejs npm
 
 # install yq
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64 \

@@ -27,5 +27,3 @@ jobs:
 
         docker tag spinnaker-pipeline $LATEST_TAG
         docker push $LATEST_TAG
-
-
